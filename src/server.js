@@ -13,6 +13,12 @@ app.get("/users", async (req, res) => {
     users = JSON.parse(users);
     return res.json(users)
 })
+app.get("/users/:userId", async (req, res) => {
+    const {userId} = req.params;
+    let users = await fs.readFile(path.join(process.cwd(), "db", "users.json"), "utf-8");
+    users = JSON.parse(users);
+    return res.json(users.find(user => user.id == userId))
+})
 
 let PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Server is running on ${PORT}-port`));
